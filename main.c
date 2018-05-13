@@ -23,10 +23,9 @@ int factorial (int n);
 int main()
 {
     srand(time(NULL));
-    //N_Queen(4);
-    MC_Queen(4);
-    //printf("totales=%d, promising=%d, solucion=%d, MC=%f",nodos_total,nodos_promising,nodos_solucion,MC);
-    printf("totales=%f",MC);
+    N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
+    MC_Queen(14);
+    printf("totales=%d, promising=%d, solucion=%d, MC=%f",nodos_total,nodos_promising,nodos_solucion,MC);
     return 0;
 }
 
@@ -109,12 +108,13 @@ int mc_nqueens(int n){
     numnode=mprod=m= 1;
     while(m!=0&& i!=n){
         mprod=mprod*m;
-        numnode=numnode+mprod*n;
+        numnode+=mprod*n;
         i++;
         restart_child();
-        for(j=1;j<n;j++){
+        m=0;
+        for(j=1;j<=n;j++){
             con[i]=j;
-            if(promising_mc(j)){
+            if(promising_mc(i)){
                 m++;
                 promising_children[prom_fin]=j;
                 prom_fin++;
@@ -134,10 +134,10 @@ int mc_nqueens(int n){
 void MC_Queen(int n){
     int i=0;
     MC=0;
-    while(i<60){
+    while(i<100){
         MC+=mc_nqueens(n);
         i++;
     }
-    MC=MC/60;
+    MC=MC/100;
 }
 
