@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 int g_n;
 int col[15]={0};
@@ -16,13 +17,16 @@ double MC=0;
 void N_Queen(int n);
 void MC_Queen(int n);
 int abs(int n);
+int exaustivo (int n);
+int factorial (int n);
 
 int main()
 {
     srand(time(NULL));
-    N_Queen(4);
+    //N_Queen(4);
     MC_Queen(4);
-    printf("totales=%d, promising=%d, solucion=%d, MC=%f",nodos_total,nodos_promising,nodos_solucion,MC);
+    //printf("totales=%d, promising=%d, solucion=%d, MC=%f",nodos_total,nodos_promising,nodos_solucion,MC);
+    printf("totales=%f",MC);
     return 0;
 }
 
@@ -30,6 +34,19 @@ void restart_child(){
     for(int i =0;i<100;i++)
         promising_children[i]=-1;
     prom_fin=0;
+}
+
+int exaustivo (int n){
+    return (pow(n,n+1)-1)/(n-1);
+}
+
+int factorial (int n){
+    int resp=1;
+    while(0<n){
+        resp*=n;
+        n--;
+    }
+    return resp;
 }
 
 int abs(int n){
@@ -45,6 +62,18 @@ int promising(int i){
     segura=1;
     while(segura&&k<i){
         if(col[k]==col[i]||abs(i-k)==abs(col[i]-col[k]))
+            segura=0;
+        k++;
+    }
+    return segura;
+}
+
+int promising_mc(int i){
+    int k,segura;
+    k=1;
+    segura=1;
+    while(segura&&k<i){
+        if(con[k]==con[i]||abs(i-k)==abs(con[i]-con[k]))
             segura=0;
         k++;
     }
@@ -83,9 +112,9 @@ int mc_nqueens(int n){
         numnode=numnode+mprod*n;
         i++;
         restart_child();
-        for(j=1;j<=n;j++){
+        for(j=1;j<n;j++){
             con[i]=j;
-            if(promising(j)){
+            if(promising_mc(j)){
                 m++;
                 promising_children[prom_fin]=j;
                 prom_fin++;
