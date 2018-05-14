@@ -8,25 +8,58 @@ int col[15]={0};
 int con[100]={0};
 int promising_children[100]={0};
 int prom_fin=0;
-int nodos_solucion=0;
-int nodos_promising=0;
-int nodos_total=0;
+long long int nodos_solucion=0;
+long long int nodos_promising=0;
+long long int nodos_total=0;
 
-double MC=0;
+long double MC=0;
 
 void N_Queen(int n);
 void MC_Queen(int n);
 int abs(int n);
 int exaustivo (int n);
 int factorial (int n);
+void longI_print(long long int n);
+void longD_print(long double n);
 
 int main()
 {
     srand(time(NULL));
-    N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
-    MC_Queen(14);
-    printf("totales=%d, promising=%d, solucion=%d, MC=%f",nodos_total,nodos_promising,nodos_solucion,MC);
+    //N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
+    MC_Queen(30);
+    longD_print(MC);
     return 0;
+}
+void longI_print(long long int n){
+    if(n>=1000000){
+        int pot=6;
+        long double m=n/1000000;
+        while(m>10){
+            m=m/10;
+            pot++;
+        }
+        float s=((float) m);
+        printf("%4fE%02d",s,pot);
+    }
+    else
+        printf("%d",((int)n));
+}
+
+void longD_print(long double n){
+    if(n>=1000000){
+        int pot=6;
+        n=n/1000000;
+        while(n>10){
+            n=n/10;
+            pot++;
+        }
+        float s=((float) n);
+        printf("%1.3fe%02d",s,pot);
+    }
+    else{
+        float s=((float) n);
+        printf("%6.1f",s);
+    }
 }
 
 void restart_child(){
@@ -101,9 +134,9 @@ void N_Queen(int n){
     Queens(0);
 }
 
-int mc_nqueens(int n){
-    int i,j;
-    int m,mprod,numnode;
+long long int mc_nqueens(int n){
+    int i,j,m;
+    long long int mprod,numnode;
     i=0;
     numnode=mprod=m= 1;
     while(m!=0&& i!=n){
@@ -135,9 +168,9 @@ void MC_Queen(int n){
     int i=0;
     MC=0;
     while(i<100){
-        MC+=mc_nqueens(n);
+        MC+=mc_nqueens(n)*0.01;
         i++;
     }
-    MC=MC/100;
+
 }
 
