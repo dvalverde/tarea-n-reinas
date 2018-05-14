@@ -8,52 +8,38 @@ int col[15]={0};
 int con[100]={0};
 int promising_children[100]={0};
 int prom_fin=0;
-long long int nodos_solucion=0;
-long long int nodos_promising=0;
-long long int nodos_total=0;
+long double nodos_solucion=0;
+long double nodos_promising=0;
+long double nodos_total=0;
 
 long double MC=0;
 
 void N_Queen(int n);
 void MC_Queen(int n);
 int abs(int n);
-int exaustivo (int n);
-int factorial (int n);
-void longI_print(long long int n);
-void longD_print(long double n);
+long double exaustivo (int n);
+long double factorial (int n);
+void long_print(long double n);
 
 int main()
 {
     srand(time(NULL));
-    //N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
-    MC_Queen(30);
-    longD_print(MC);
+    N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
+    MC_Queen(14);
+    long_print(MC);
+    long_print(nodos_total);
     return 0;
 }
-void longI_print(long long int n){
-    if(n>=1000000){
-        int pot=6;
-        long double m=n/1000000;
-        while(m>10){
-            m=m/10;
-            pot++;
-        }
-        float s=((float) m);
-        printf("%4fE%02d",s,pot);
-    }
-    else
-        printf("%d",((int)n));
-}
 
-void longD_print(long double n){
+void long_print(long double n){
     if(n>=1000000){
         int pot=6;
         n=n/1000000;
         while(n>10){
-            n=n/10;
+            n=n*0.1;
             pot++;
         }
-        float s=((float) n);
+        float s=n*1.0;
         printf("%1.3fe%02d",s,pot);
     }
     else{
@@ -68,12 +54,12 @@ void restart_child(){
     prom_fin=0;
 }
 
-int exaustivo (int n){
+long double exaustivo (int n){
     return (pow(n,n+1)-1)/(n-1);
 }
 
-int factorial (int n){
-    int resp=1;
+long double factorial (int n){
+    long double resp=1;
     while(0<n){
         resp*=n;
         n--;
@@ -134,9 +120,9 @@ void N_Queen(int n){
     Queens(0);
 }
 
-long long int mc_nqueens(int n){
+long double mc_nqueens(int n){
     int i,j,m;
-    long long int mprod,numnode;
+    long double mprod,numnode;
     i=0;
     numnode=mprod=m= 1;
     while(m!=0&& i!=n){
