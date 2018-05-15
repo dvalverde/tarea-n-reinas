@@ -4,30 +4,29 @@
 #include <math.h>
 
 int g_n;
-int col[15]={0};
+int col[17]={0};
 int con[100]={0};
 int promising_children[100]={0};
-int prom_fin=0;
-long double nodos_solucion=0;
-long double nodos_promising=0;
-long double nodos_total=0;
+long double nodos_solucion=0;// #solucion
+long double nodos_promising=0;// #promising
+long double nodos_total=0;// totales
 
-long double MC=0;
+long double MC=0;   //MC
 
 void N_Queen(int n);
 void MC_Queen(int n);
 int abs(int n);
-long double exaustivo (int n);
-long double factorial (int n);
+long double exaustivo (int n); //exhaustivo
+long double factorial (int n);  //factorial
 void long_print(long double n);
 
 int main()
 {
     srand(time(NULL));
-    //N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
+    N_Queen(4);//16= 7+ min, 15= 2- min, 14= 30+- s
     MC_Queen(4);
     long_print(MC);
-    //long_print(nodos_total);
+    long_print(nodos_total);
     return 0;
 }
 
@@ -51,7 +50,6 @@ void long_print(long double n){
 void restart_child(){
     for(int i =0;i<100;i++)
         promising_children[i]=-1;
-    prom_fin=0;
 }
 
 long double exaustivo (int n){
@@ -116,7 +114,8 @@ void Queens(int i){
 
 void N_Queen(int n){
     g_n=n;
-    col[0]=0;
+    for(int i=0;i<17;i++)
+        col[i]=0;
     Queens(0);
 }
 
