@@ -24,10 +24,10 @@ void long_print(long double n);
 int main()
 {
     srand(time(NULL));
-    N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
-    MC_Queen(14);
+    //N_Queen(14);//16= 7+ min, 15= 2- min, 14= 30+- s
+    MC_Queen(4);
     long_print(MC);
-    long_print(nodos_total);
+    //long_print(nodos_total);
     return 0;
 }
 
@@ -44,7 +44,7 @@ void long_print(long double n){
     }
     else{
         float s=((float) n);
-        printf("%6.2f",s);
+        printf("%6.1f",s);
     }
 }
 
@@ -134,15 +134,14 @@ long double mc_nqueens(int n){
         for(j=1;j<=n;j++){
             con[i]=j;
             if(promising_mc(i)){
+                promising_children[m]=j;
                 m++;
-                promising_children[prom_fin]=j;
-                prom_fin++;
             }
         }
         if(m!=0){
             j=-1;
             while(j==-1){
-                j=promising_children[rand()%prom_fin];
+                j=promising_children[rand()%m];
             }
             con[i]=j;
         }
