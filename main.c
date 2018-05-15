@@ -40,11 +40,11 @@ void long_print(long double n){
             pot++;
         }
         float s=n*1.0;
-        printf("%1.3fe%02d",s,pot);
+        printf("%1.3fe%3d",s,pot);
     }
     else{
         float s=((float) n);
-        printf("%6.1f",s);
+        printf("%6.2f",s);
     }
 }
 
