@@ -39,7 +39,7 @@ int main(void)
     srand(time(NULL));
     printf ("-----------------------------Tabla resultados-------------------------------");
     printf("\n");
-    printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         S_Backtracking           M.C");
+    printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         Soluciones              M.C");
     printf("\n");
 
   	for (int i=0;i<11;i++){
@@ -63,7 +63,7 @@ int main(void)
 			printf("Presione enter para continuar el despliegue de la tabla...");
 			scanf("%c",&enter);
 			printf("\n");
-			printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         S_Backtracking          M.C");
+			printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         Soluciones              M.C");
 			printf("\n");
 		}
     n_reinas++;
