@@ -3,56 +3,78 @@
 #include <time.h>
 #include <math.h>
 
+
 int g_n;
-int col[17]={0};
+int col[15]={0};
 int con[100]={0};
 int promising_children[100]={0};
-long double nodos_solucion=0;// #solucion
-long double nodos_promising=0;// #promising
-long double nodos_total=0;// totales
+int prom_fin=0;
+long double nodos_solucion=0;
+long double nodos_promising=0;
+long double nodos_total=0;
 
-long double MC=0;   //MC
+long double MC=0;
 
 void N_Queen(int n);
 void MC_Queen(int n);
 int abs(int n);
-long double exaustivo (int n); //exhaustivo
-long double factorial (int n);  //factorial
+long double exaustivo (int n);
+long double factorial (int n);
 void long_print(long double n);
 
-int main()
-{
-    srand(time(NULL));
-    N_Queen(4);//16= 7+ min, 15= 2- min, 14= 30+- s
-    MC_Queen(100);
-    long_print(exaustivo(100));
-    long_print(MC);
-    long_print(nodos_total);
-    return 0;
-}
+int main(void)
 
-/*
-void long_print(long double n){
-    if(n>=1000000){
-        int pot=6;
-        n=n/1000000;
-        while(n>10){
-            n=n*0.1;
-            pot++;
-        }
-        float s=n*1.0;
-        printf("%1.3fe%3d",s,pot);
-    }
-    else{
-        float s=((float) n);
-        printf("%6.1f",s);
-    }
-}*/
+
+{
+
+	int n_reinas=4;
+	char enter;
+
+	printf("--------------------------------------------------MINIPROYECTO # 2------------------------------------------------------ ");
+	printf("\n");
+	printf("Integrantes: David - Luis Enrique ");
+	printf("\n");
+
+
+    srand(time(NULL));
+    printf ("-----------------------------Tabla resultados-------------------------------");
+    printf("\n");
+    printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         S_Backtracking           M.C");
+    printf("\n");
+
+  	for (int i=0;i<11;i++){
+	MC_Queen(n_reinas);
+	N_Queen(n_reinas);
+	printf("|%03d",n_reinas);printf("|---------|");long_print(exaustivo(n_reinas)),printf("|---------|");long_print(factorial(n_reinas)),printf("|---------|");long_print(nodos_total);/* Backtracking*/printf("|--------|");long_print(nodos_promising);/*Nodos promising  Backtracking*/printf("|-------|");
+	long_print(nodos_solucion);/*Nodos solucion Backtracking*/printf("|--------|");long_print(MC)/*MotneCarlo*/;
+
+    printf("\n");
+
+	n_reinas++;
+	};
+	for (int i=0;i<86;i++){
+    MC_Queen(n_reinas);
+	printf("|%03d",n_reinas);printf("|---------|");long_print(exaustivo(n_reinas)),printf("|---------|");long_print(factorial(n_reinas)),printf("|---------|");printf("    N/A   ");/* Backtracking*/printf("|--------|");printf("    N/A   ");/*Nodos promising  Backtracking*/printf("|-------|");
+	printf("    N/A   ");/*Nodos solucion Backtracking*/printf("|--------|");long_print(MC)/*MotneCarlo*/;
+	printf("\n");
+
+		if (n_reinas==20 || n_reinas==40 || n_reinas==60 || n_reinas==80)
+		{
+			printf("Presione enter para continuar el despliegue de la tabla...");
+			scanf("%c",&enter);
+			printf("\n");
+			printf("Numero Reinas    Exhaustivo           Factorial         Backtracking         Promissing         S_Backtracking          M.C");
+			printf("\n");
+		}
+    n_reinas++;
+	}
+	return 0;
+}
 
 void long_print(long double n){
     char resp[10];
     if(n>=1000000){
-        char or[]="%1.3fe%3d";
+        char or[9]="%1.3fe%d";
         int pot=6;
         n=n/1000000;
         while(n>10){
@@ -63,20 +85,24 @@ void long_print(long double n){
         sprintf(resp,or,s,pot);
     }
     else{
-        char or[]="%6.2f";
+        char or[9]="%6.2f";
         float s=((float) n);
         sprintf(resp,or,s);
     }
     printf("%10s",resp);
 }
 
+
 void restart_child(){
     for(int i =0;i<100;i++)
         promising_children[i]=-1;
+    prom_fin=0;
 }
 
 long double exaustivo (int n){
-    return (pow(n,n+1)-1)/(n-1);
+	long double prueba =(pow(n,(n+1))-1)/(n-1);
+
+    return prueba;
 }
 
 long double factorial (int n){
@@ -122,6 +148,7 @@ int promising_mc(int i){
 void Queens(int i){
     nodos_total++;
     int j;
+
     if(promising(i)){
         nodos_promising++;
         if(i==g_n){
@@ -137,8 +164,7 @@ void Queens(int i){
 
 void N_Queen(int n){
     g_n=n;
-    for(int i=0;i<17;i++)
-        col[i]=0;
+    col[0]=0;
     Queens(0);
 }
 
@@ -147,7 +173,7 @@ long double mc_nqueens(int n){
     long double mprod,numnode;
     i=0;
     numnode=mprod=m= 1;
-    while(m!=0&& i!=n){
+    while(m!=0 && i!=n){
         mprod=mprod*m;
         numnode+=mprod*n;
         i++;
@@ -156,14 +182,15 @@ long double mc_nqueens(int n){
         for(j=1;j<=n;j++){
             con[i]=j;
             if(promising_mc(i)){
-                promising_children[m]=j;
                 m++;
+                promising_children[prom_fin]=j;
+                prom_fin++;
             }
         }
         if(m!=0){
             j=-1;
             while(j==-1){
-                j=promising_children[rand()%m];
+                j=promising_children[rand()%prom_fin];
             }
             con[i]=j;
         }
@@ -180,4 +207,3 @@ void MC_Queen(int n){
     }
 
 }
-
