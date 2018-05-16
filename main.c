@@ -24,12 +24,14 @@ int main()
 {
     srand(time(NULL));
     N_Queen(4);//16= 7+ min, 15= 2- min, 14= 30+- s
-    MC_Queen(4);
+    MC_Queen(100);
+    long_print(exaustivo(100));
     long_print(MC);
     long_print(nodos_total);
     return 0;
 }
 
+/*
 void long_print(long double n){
     if(n>=1000000){
         int pot=6;
@@ -45,6 +47,27 @@ void long_print(long double n){
         float s=((float) n);
         printf("%6.1f",s);
     }
+}*/
+
+void long_print(long double n){
+    char resp[10];
+    if(n>=1000000){
+        char or[]="%1.3fe%3d";
+        int pot=6;
+        n=n/1000000;
+        while(n>10){
+            n=n*0.1;
+            pot++;
+        }
+        float s=n*1.0;
+        sprintf(resp,or,s,pot);
+    }
+    else{
+        char or[]="%6.2f";
+        float s=((float) n);
+        sprintf(resp,or,s);
+    }
+    printf("%10s",resp);
 }
 
 void restart_child(){
